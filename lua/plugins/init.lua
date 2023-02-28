@@ -7,6 +7,8 @@
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
 return {
+  { 'ggandor/flit.nvim', enabled = false },
+
   { -- Theme inspired by Atom
     "navarasu/onedark.nvim"
   },
@@ -88,7 +90,7 @@ return {
         -- fontend
         angularls = {},
         cssls = {},
-        eslint = {},
+--      eslint = {},
 --      tsserver = {},
         html = {},
         tailwindcss = {},
@@ -185,6 +187,7 @@ return {
         "shfmt",
         "flake8",
         "prettierd",
+        "eslint_d"
       },
     },
   },
