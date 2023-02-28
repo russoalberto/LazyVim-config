@@ -1,7 +1,5 @@
 -- since this is just an example spec, don't actually load anything here and return an empty spec
 -- stylua: ignore
-if true then return {} end
-
 -- every spec file under config.plugins will be loaded automatically by lazy.nvim
 --
 -- In your plugin files, you can:
@@ -9,14 +7,15 @@ if true then return {} end
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
 return {
-  -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
+  { -- Theme inspired by Atom
+    "navarasu/onedark.nvim"
+  },
 
-  -- Configure LazyVim to load gruvbox
+  -- Configure LazyVim to load onedark
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "onedark",
     },
   },
 
@@ -27,9 +26,6 @@ return {
     opts = { use_diagnostic_signs = true },
   },
 
-  -- disable trouble
-  { "folke/trouble.nvim", enabled = false },
-
   -- add symbols-outline
   {
     "simrat39/symbols-outline.nvim",
@@ -38,20 +34,16 @@ return {
     config = true,
   },
 
-  -- override nvim-cmp and add cmp-emoji
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
-    ---@param opts cmp.ConfigSchema
-    opts = function(_, opts)
-      local cmp = require("cmp")
-      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "emoji" } }))
-    end,
-  },
-
   -- change some telescope options and a keymap to browse plugin files
   {
     "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+      config = function()
+        require("telescope").load_extension("fzf")
+      end,
+    },
     keys = {
       -- add a keymap to browse plugin files
       -- stylua: ignore
@@ -72,62 +64,51 @@ return {
     },
   },
 
-  -- add telescope-fzf-native
-  {
-    "telescope.nvim",
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-      config = function()
-        require("telescope").load_extension("fzf")
-      end,
-    },
-  },
-
-  -- add pyright to lspconfig
+  -- config lspconfig
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      -- Automatically install LSPs to stdpath for neovim
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+
+      -- Useful status updates for LSP
+      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+      { "j-hui/fidget.nvim", opts = {} },
+
+      -- Additional lua configuration, makes nvim stuff amazing!
+      "folke/neodev.nvim",
+    },
     ---@class PluginLspOpts
     opts = {
       ---@type lspconfig.options
       servers = {
         -- pyright will be automatically installed with mason and loaded with lspconfig
         pyright = {},
-      },
-    },
-  },
+        -- fontend
+        angularls = {},
+        cssls = {},
+        eslint = {},
+--      tsserver = {},
+        html = {},
+        tailwindcss = {},
 
-  -- add tsserver and setup with typescript.nvim instead of lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/typescript.nvim",
-      init = function()
-        require("lazyvim.util").on_attach(function(_, buffer)
-          -- stylua: ignore
-          vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
-          vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
-        end)
-      end,
-    },
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- tsserver will be automatically installed with mason and loaded with lspconfig
-        tsserver = {},
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      setup = {
-        -- example to setup with typescript.nvim
-        tsserver = function(_, opts)
-          require("typescript").setup({ server = opts })
-          return true
-        end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
+        -- backend
+        csharp_ls = {},
+        intelephense = {},
+        gopls = {},
+        omnisharp_mono = {},
+        -- fileconfig
+        dockerls = {},
+        docker_compose_language_service = {},
+        yamlls = {},
+        jsonls = {},
+        marksman = {},
+        -- system
+        rust_analyzer = {},
+        -- misc
+        grammarly = {},
+        lua_ls = {},
       },
     },
   },
@@ -168,8 +149,16 @@ return {
     opts = function(_, opts)
       -- add tsx and treesitter
       vim.list_extend(opts.ensure_installed, {
-          "tsx",
-          "typescript",
+        "arduino",
+        "c",
+        "c_sharp",
+        "cpp",
+        "dockerfile",
+        "go",
+        "html",
+        "php",
+        "rust",
+        "scss",
       })
     end,
   },
@@ -183,20 +172,6 @@ return {
     end,
   },
 
-  -- or you can return new options to override all the defaults
-  {
-    "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
-    opts = function()
-      return {
-        --[[add your custom lualine config here]]
-      }
-    end,
-  },
-
-  -- use mini.starter instead of alpha
-  { import = "lazyvim.plugins.extras.ui.mini-starter" },
-
   -- add jsonls and schemastore ans setup treesitter for json, json5 and jsonc
   { import = "lazyvim.plugins.extras.lang.json" },
 
@@ -209,6 +184,7 @@ return {
         "shellcheck",
         "shfmt",
         "flake8",
+        "prettierd",
       },
     },
   },
@@ -217,6 +193,7 @@ return {
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {
     "L3MON4D3/LuaSnip",
+    dependencies = { 'saadparwaiz1/cmp_luasnip' },
     keys = function()
       return {}
     end,
@@ -225,7 +202,15 @@ return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
-      "hrsh7th/cmp-emoji",
+      --'neovim/nvim-lspconfig',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lua',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'onsails/lspkind.nvim',
+      'tamago324/cmp-zsh',
+      --'hrsh7th/cmp-nvim-lsp-signature-help',
     },
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
@@ -237,7 +222,34 @@ return {
 
       local luasnip = require("luasnip")
       local cmp = require("cmp")
+      local lspkind = require('lspkind')
 
+      lspkind.init {
+        symbol_map = {
+          Copilot = "",
+        },
+      }
+      opts.sources = {
+        { name = 'nvim_lsp' },
+        { name = 'nvim_lua'},
+        { name = 'luasnip' },
+        { name = 'copilot' },
+        { name = 'path' },
+        { name = 'buffer', keyword_length = 5 },
+      }
+      opts.formatting = {
+        format = lspkind.cmp_format {
+          with_text = true,
+          menu = {
+            buffer = "[buf]",
+            nvim_lsp = "[LSP]",
+            nvim_lua = "[api]",
+            path = "[path]",
+            luasnip = "[snip]",
+            tn = "[TabNine]",
+          }
+        }
+      }
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
