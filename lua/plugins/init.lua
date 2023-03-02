@@ -99,7 +99,7 @@ return {
         csharp_ls = {},
         intelephense = {},
         gopls = {},
-        omnisharp_mono = {},
+        --omnisharp = {},
         -- fileconfig
         dockerls = {},
         docker_compose_language_service = {},
