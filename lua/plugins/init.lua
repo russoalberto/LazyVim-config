@@ -182,12 +182,18 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "stylua",
-        "shellcheck",
-        "shfmt",
+        -- DAP
+        "codelldd",
+        "js-debug-adapter",
+        "netcoredbg",
+        -- Linter
+        "eslint_d",
         "flake8",
+        "shellcheck",
+        -- Formatter
         "prettierd",
-        "eslint_d"
+        "shfmt",
+        "stylua",
       },
     },
   },
