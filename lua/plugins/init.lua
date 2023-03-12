@@ -183,7 +183,7 @@ return {
     opts = {
       ensure_installed = {
         -- DAP
-        "codelldd",
+        "codelldb",
         "js-debug-adapter",
         "netcoredbg",
         -- Linter
@@ -233,16 +233,10 @@ return {
       local cmp = require("cmp")
       local lspkind = require('lspkind')
 
-      lspkind.init {
-        symbol_map = {
-          Copilot = "",
-        },
-      }
       opts.sources = {
         { name = 'nvim_lsp' },
         { name = 'nvim_lua'},
         { name = 'luasnip' },
-        { name = 'copilot' },
         { name = 'path' },
         { name = 'buffer', keyword_length = 5 },
       }
