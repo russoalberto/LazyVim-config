@@ -44,3 +44,5 @@ require("lazy").setup({
     },
   },
 })
+
+vim.o.mouse = ""
