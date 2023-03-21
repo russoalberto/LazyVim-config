@@ -44,6 +44,7 @@ return {
       build = "make",
       config = function()
         require("telescope").load_extension("fzf")
+        require("telescope").load_extension("projects")
       end,
     },
     keys = {
@@ -90,8 +91,8 @@ return {
         -- fontend
         angularls = {},
         cssls = {},
---      eslint = {},
---      tsserver = {},
+        --eslint = {},
+        --tsserver = {},
         html = {},
         tailwindcss = {},
 
@@ -198,6 +199,29 @@ return {
     },
   },
 
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = {
+      filesystem = {
+        filtered_items = {
+          hide_dotfiles = false,
+          hide_gitignored = false,
+        },
+      use_libuv_file_watcher = true,
+      }
+    },
+  },
+
+  {
+    "goolord/alpha-nvim",
+    opts = function (_, opts)
+      opts.section.buttons.val = {
+        opts.button("p", " " .. " Open project", ":Telescope projects <CR>"),
+        unpack(opts.section.buttons.val)
+      }
+    end
+  },
+
   -- Use <tab> for completion and snippets (supertab)
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {
@@ -235,7 +259,7 @@ return {
 
       opts.sources = {
         { name = 'nvim_lsp' },
-        { name = 'nvim_lua'},
+        { name = 'nvim_lua' },
         { name = 'luasnip' },
         { name = 'path' },
         { name = 'buffer', keyword_length = 5 },
