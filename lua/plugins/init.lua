@@ -188,16 +188,18 @@ return {
         "js-debug-adapter",
         "netcoredbg",
         -- Linter
-        "eslint_d",
         "flake8",
         "shellcheck",
         -- Formatter
-        "prettierd",
         "shfmt",
         "stylua",
       },
     },
   },
+
+  -- Add eslint and prettier configs
+  { import = "lazyvim.plugins.extras.linting.eslint" },
+  { import = "lazyvim.plugins.extras.formatting.prettier" },
 
   {
     "nvim-neo-tree/neo-tree.nvim",
