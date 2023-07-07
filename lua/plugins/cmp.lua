@@ -20,6 +20,18 @@ return {
       "hrsh7th/cmp-cmdline",
       "onsails/lspkind.nvim",
       "tamago324/cmp-zsh",
+      {
+        "zbirenbaum/copilot.lua",
+        config = function()
+          require("copilot").setup()
+        end,
+      },
+      {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+          require("copilot_cmp").setup()
+        end,
+      },
       --'hrsh7th/cmp-nvim-lsp-signature-help',
     },
     ---@param opts cmp.ConfigSchema
@@ -38,6 +50,7 @@ return {
         { name = "nvim_lsp" },
         { name = "nvim_lua" },
         { name = "luasnip" },
+        { name = "copilot" },
         { name = "path" },
         { name = "buffer", keyword_length = 5 },
       }
@@ -46,11 +59,11 @@ return {
           with_text = true,
           menu = {
             buffer = "[buf]",
+            copilot = "[copilot]",
             nvim_lsp = "[LSP]",
             nvim_lua = "[api]",
             path = "[path]",
             luasnip = "[snip]",
-            tn = "[TabNine]",
           },
         }),
       }
