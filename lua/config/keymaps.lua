@@ -6,6 +6,9 @@ local neoTreeToogle = function()
   require("neo-tree.command").execute({ toggle = true, dir = require("lazyvim.util").get_root() })
 end
 
+local mark = require("harpoon.mark")
+local ui = require("harpoon.ui")
+
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
@@ -30,7 +33,7 @@ map("n", "<A-0>", "<Cmd>BufferLast<CR>", opts)
 -- Pin/unpin buffer
 map("n", "<A-p>", "<Cmd>BufferPin<CR>", opts)
 -- Close buffer
-map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
+map("n", "<A-q>", "<Cmd>BufferClose<CR>", opts)
 -- Wipeout buffer
 --                 :BufferWipeout
 -- Close commands
@@ -39,8 +42,6 @@ map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
 --                 :BufferCloseAllButCurrentOrPinned
 --                 :BufferCloseBuffersLeft
 --                 :BufferCloseBuffersRight
--- Magic buffer-picking mode
-map("n", "<C-p>", "<Cmd>BufferPick<CR>", opts)
 -- Sort automatically by...
 map("n", "<Space>bb", "<Cmd>BufferOrderByBufferNumber<CR>", opts)
 map("n", "<Space>bd", "<Cmd>BufferOrderByDirectory<CR>", opts)
@@ -51,6 +52,10 @@ map("n", "<Space>bw", "<Cmd>BufferOrderByWindowNumber<CR>", opts)
 vim.keymap.set("n", "<A-t>", neoTreeToogle, { silent = true })
 
 -- LSP format
-vim.keymap.set("n", "<A-f>", function()
+vim.keymap.set("n", "<C-I>", function()
   vim.lsp.buf.format({ async = true })
 end, { silent = true })
+
+-- Harpoon
+vim.keymap.set("n", "<leader>a", mark.add_file, { desc = "Harpoon: add file" })
+vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
