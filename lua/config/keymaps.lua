@@ -70,3 +70,6 @@ vim.keymap.set("n", "<leader>zz", function()
   require("zen-mode").toggle()
   vim.wo.wrap = false
 end, { desc = "Zen mode" })
+
+-- Undo tree
+vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle, { desc = "Undo tree" })
