@@ -64,3 +64,9 @@ end, { silent = true })
 -- Harpoon
 vim.keymap.set("n", "<leader>a", mark.add_file, { desc = "Harpoon: add file" })
 vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+
+-- Zen mode
+vim.keymap.set("n", "<leader>zz", function()
+  require("zen-mode").toggle()
+  vim.wo.wrap = false
+end, { desc = "Zen mode" })
