@@ -17,4 +17,4 @@ vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWipeout" }, {
   end,
 })
 
-vim.o.mouse = ""
+--vim.o.mouse = ""
