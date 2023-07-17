@@ -12,7 +12,6 @@ local ui = require("harpoon.ui")
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
--- BarBar
 -- Move to previous/next
 map("n", "<A-,>", "<Cmd>BufferPrevious<CR>", opts)
 map("n", "<A-.>", "<Cmd>BufferNext<CR>", opts)
@@ -33,7 +32,7 @@ map("n", "<A-0>", "<Cmd>BufferLast<CR>", opts)
 -- Pin/unpin buffer
 map("n", "<A-p>", "<Cmd>BufferPin<CR>", opts)
 -- Close buffer
-map("n", "<A-q>", "<Cmd>BufferClose<CR>", opts)
+map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
 -- Wipeout buffer
 --                 :BufferWipeout
 -- Close commands
@@ -42,17 +41,23 @@ map("n", "<A-q>", "<Cmd>BufferClose<CR>", opts)
 --                 :BufferCloseAllButCurrentOrPinned
 --                 :BufferCloseBuffersLeft
 --                 :BufferCloseBuffersRight
+-- Magic buffer-picking mode
+map("n", "<C-p>", "<Cmd>BufferPick<CR>", opts)
 -- Sort automatically by...
 map("n", "<Space>bb", "<Cmd>BufferOrderByBufferNumber<CR>", opts)
 map("n", "<Space>bd", "<Cmd>BufferOrderByDirectory<CR>", opts)
 map("n", "<Space>bl", "<Cmd>BufferOrderByLanguage<CR>", opts)
 map("n", "<Space>bw", "<Cmd>BufferOrderByWindowNumber<CR>", opts)
 
+-- Other:
+-- :BarbarEnable - enables barbar (enabled by default)
+-- :BarbarDisable - very bad command, should never be used
+
 -- neoTree
 vim.keymap.set("n", "<A-t>", neoTreeToogle, { silent = true })
 
 -- LSP format
-vim.keymap.set("n", "<C-I>", function()
+vim.keymap.set("n", "<A-i>", function()
   vim.lsp.buf.format({ async = true })
 end, { silent = true })
 
