@@ -24,7 +24,21 @@ return {
         cssls = {},
         --eslint = {},
         --tsserver = {},
-        html = {},
+        html = {
+          settings = {
+            html = {
+              format = {
+                wrapAttributesIndentSize = "1",
+                wrapAttributes = "aligned-multiple",
+                wrapLineLength = 0,
+              },
+            },
+          },
+          on_attach = function(client)
+            client.server_capabilities.documentRangeFormattingProvider = false
+            client.server_capabilities.documentFormattingProvider = false
+          end,
+        },
         tailwindcss = {},
 
         -- backend
@@ -61,20 +75,43 @@ return {
         "flake8",
         "shellcheck",
         -- Formatter
+        "prettierd",
         "shfmt",
         "stylua",
+        "prettierd",
       },
     },
   },
 
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
-  -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
+  -- treesitter, mason and typescript.nvim.
   { import = "lazyvim.plugins.extras.lang.typescript" },
 
   -- add jsonls and schemastore ans setup treesitter for json, json5 and jsonc
   { import = "lazyvim.plugins.extras.lang.json" },
 
-  -- Add eslint and prettier configs
+  -- Add eslint configs
   { import = "lazyvim.plugins.extras.linting.eslint" },
-  { import = "lazyvim.plugins.extras.formatting.prettier" },
+
+  -- Update null-ls configs
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    opts = function(_, opts)
+      local nls = require("null-ls")
+      table.insert(
+        opts.sources,
+        nls.builtins.formatting.prettierd.with({
+          disabled_filetypes = { "html" },
+          condition = function(utils)
+            return utils.root_has_file({
+              ".prettierrc.json",
+              ".prettierrc.yml",
+              ".prettierrc.yaml",
+              ".prettierrc.json5",
+            })
+          end,
+        })
+      )
+    end,
+  },
 }

@@ -11,7 +11,6 @@ return {
         "cpp",
         "dockerfile",
         "go",
-        "help",
         "html",
         "html",
         "javascript",
