@@ -17,4 +17,8 @@ vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWipeout" }, {
   end,
 })
 
+-- Editor options
+vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.colorcolumn = "120"
 --vim.o.mouse = ""

@@ -28,15 +28,17 @@ return {
           settings = {
             html = {
               format = {
-                wrapAttributesIndentSize = "1",
-                wrapAttributes = "aligned-multiple",
+                tabSize = 2,
+                useTabs = false,
+                wrapAttributesIndentSize = 2,
+                wrapAttributes = "preserve",
                 wrapLineLength = 0,
               },
             },
           },
           on_attach = function(client)
-            client.server_capabilities.documentRangeFormattingProvider = false
-            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = true
+            client.server_capabilities.documentFormattingProvider = true
           end,
         },
         tailwindcss = {},
