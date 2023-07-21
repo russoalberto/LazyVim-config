@@ -11,29 +11,6 @@ return {
   -- then: setup supertab in cmp
   {
     "hrsh7th/nvim-cmp",
-    dependencies = {
-      --'neovim/nvim-lspconfig',
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "onsails/lspkind.nvim",
-      "tamago324/cmp-zsh",
-      {
-        "zbirenbaum/copilot.lua",
-        config = function()
-          require("copilot").setup()
-        end,
-      },
-      {
-        "zbirenbaum/copilot-cmp",
-        config = function()
-          require("copilot_cmp").setup()
-        end,
-      },
-      --'hrsh7th/cmp-nvim-lsp-signature-help',
-    },
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
       local has_words_before = function()
@@ -44,35 +21,14 @@ return {
 
       local luasnip = require("luasnip")
       local cmp = require("cmp")
-      local lspkind = require("lspkind")
 
-      opts.sources = {
-        { name = "nvim_lsp" },
-        { name = "nvim_lua" },
-        { name = "luasnip" },
-        { name = "copilot" },
-        { name = "path" },
-        { name = "buffer", keyword_length = 5 },
-      }
-      opts.formatting = {
-        format = lspkind.cmp_format({
-          with_text = true,
-          menu = {
-            buffer = "[buf]",
-            copilot = "[copilot]",
-            nvim_lsp = "[LSP]",
-            nvim_lua = "[api]",
-            path = "[path]",
-            luasnip = "[snip]",
-          },
-        }),
-      }
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
+            -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
             cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-            -- they way you will only jump inside the snippet region
+          -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+          -- this way you will only jump inside the snippet region
           elseif luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()
           elseif has_words_before() then
@@ -91,6 +47,18 @@ return {
           end
         end, { "i", "s" }),
       })
+      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "codeium", max_item_count = 3 } }))
+    end,
+  },
+  -- { import = "lazyvim.plugins.extras.coding.copilot" },
+  {
+    "jcdickinson/codeium.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
+    config = function()
+      require("codeium").setup({})
     end,
   },
 }
