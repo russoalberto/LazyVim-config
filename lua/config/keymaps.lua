@@ -13,41 +13,33 @@ local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
 -- Move to previous/next
-map("n", "<A-,>", "<Cmd>BufferPrevious<CR>", opts)
-map("n", "<A-.>", "<Cmd>BufferNext<CR>", opts)
+map("n", "<A-,>", "<Cmd>BufferLineCyclePrev<CR>", opts)
+map("n", "<A-.>", "<Cmd>BufferLineCycleNext<CR>", opts)
 -- Re-order to previous/next
-map("n", "<A-<>", "<Cmd>BufferMovePrevious<CR>", opts)
-map("n", "<A->>", "<Cmd>BufferMoveNext<CR>", opts)
+map("n", "<A-<>", "<Cmd>BufferLineMovePrev<CR>", opts)
+map("n", "<A->>", "<Cmd>BufferLineMoveNext<CR>", opts)
 -- Goto buffer in position...
-map("n", "<A-1>", "<Cmd>BufferGoto 1<CR>", opts)
-map("n", "<A-2>", "<Cmd>BufferGoto 2<CR>", opts)
-map("n", "<A-3>", "<Cmd>BufferGoto 3<CR>", opts)
-map("n", "<A-4>", "<Cmd>BufferGoto 4<CR>", opts)
-map("n", "<A-5>", "<Cmd>BufferGoto 5<CR>", opts)
-map("n", "<A-6>", "<Cmd>BufferGoto 6<CR>", opts)
-map("n", "<A-7>", "<Cmd>BufferGoto 7<CR>", opts)
-map("n", "<A-8>", "<Cmd>BufferGoto 8<CR>", opts)
-map("n", "<A-9>", "<Cmd>BufferGoto 9<CR>", opts)
-map("n", "<A-0>", "<Cmd>BufferLast<CR>", opts)
+map("n", "<A-1>", "<Cmd>BufferLineGoToBuffer 1<CR>", opts)
+map("n", "<A-2>", "<Cmd>BufferLineGoToBuffer 2<CR>", opts)
+map("n", "<A-3>", "<Cmd>BufferLineGoToBuffer 3<CR>", opts)
+map("n", "<A-4>", "<Cmd>BufferLineGoToBuffer 4<CR>", opts)
+map("n", "<A-5>", "<Cmd>BufferLineGoToBuffer 5<CR>", opts)
+map("n", "<A-6>", "<Cmd>BufferLineGoToBuffer 6<CR>", opts)
+map("n", "<A-7>", "<Cmd>BufferLineGoToBuffer 7<CR>", opts)
+map("n", "<A-8>", "<Cmd>BufferLineGoToBuffer 8<CR>", opts)
+map("n", "<A-9>", "<Cmd>BufferLineGoToBuffer 9<CR>", opts)
 -- Pin/unpin buffer
-map("n", "<A-p>", "<Cmd>BufferPin<CR>", opts)
+map("n", "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", opts)
+map("n", "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", opts)
 -- Close buffer
-map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
--- Wipeout buffer
---                 :BufferWipeout
--- Close commands
---                 :BufferCloseAllButCurrent
---                 :BufferCloseAllButPinned
---                 :BufferCloseAllButCurrentOrPinned
---                 :BufferCloseBuffersLeft
---                 :BufferCloseBuffersRight
+map("n", "<leader>bx", "<Cmd>Bdelete<CR>", opts)
 -- Magic buffer-picking mode
-map("n", "<C-p>", "<Cmd>BufferPick<CR>", opts)
+map("n", "<leader>bk", "<Cmd>BufferLinePick<CR>", opts)
+map("n", "<leader>bK", "<Cmd>BufferLinePickClose<CR>", opts)
 -- Sort automatically by...
-map("n", "<Space>bb", "<Cmd>BufferOrderByBufferNumber<CR>", opts)
-map("n", "<Space>bd", "<Cmd>BufferOrderByDirectory<CR>", opts)
-map("n", "<Space>bl", "<Cmd>BufferOrderByLanguage<CR>", opts)
-map("n", "<Space>bw", "<Cmd>BufferOrderByWindowNumber<CR>", opts)
+map("n", "<leader>bt", "<Cmd>BufferLineSortByTabs<CR>", opts)
+map("n", "<leader>bd", "<Cmd>BufferLineSortByDirectory<CR>", opts)
+map("n", "<leader>br", "<Cmd>BufferLineSortByRelativeDirectory<CR>", opts)
 
 -- Other:
 -- :BarbarEnable - enables barbar (enabled by default)
@@ -72,4 +64,4 @@ vim.keymap.set("n", "<leader>zz", function()
 end, { desc = "Zen mode" })
 
 -- Undo tree
-vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle, { desc = "Undo tree" })
+vim.keymap.set("n", "<leader>h", vim.cmd.UndotreeToggle, { desc = "Undo tree" })
