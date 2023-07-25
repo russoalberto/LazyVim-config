@@ -80,3 +80,8 @@ wk.register({
 }, {
   prefix = "<leader>",
 })
+
+map("n", "<C-h>", "<Cmd>TmuxNavigateLeft<CR>", opts)
+map("n", "<C-l>", "<Cmd>TmuxNavigateRight<CR>", opts)
+map("n", "<C-j>", "<Cmd>TmuxNavigateDown<CR>", opts)
+map("n", "<C-k>", "<Cmd>TmuxNavigateUp<CR>", opts)
